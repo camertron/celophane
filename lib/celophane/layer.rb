@@ -1,10 +1,6 @@
-require 'pry-byebug'
 require 'forwardable'
 
 module Celophane
-  class MethodAlreadyDefinedError < StandardError; end
-  class UnsupportedStrategyError < StandardError; end
-
   module Layer
     def with_layer(layer_module, options = {})
       with_layers(Array(layer_module), options)
@@ -101,7 +97,7 @@ module Celophane
           end
         end
 
-        wrapper_name = 'With' + layer_modules.map(&:name).join('And')
+        wrapper_name = 'With' + layer_modules.map { |mod| mod.name.split('::').last }.join('And')
 
         # Assign the new wrapper class to a constant inside self, with 'With'
         # prepended. For example, if the module is called Engine the wrapper
@@ -119,44 +115,3 @@ module Celophane
     end
   end
 end
-
-class ActiveRecordBase
-  def save
-    true
-  end
-end
-
-class Game < ActiveRecordBase
-  include Celophane::Layer
-
-  def get_some_game_data
-    :some_game_data
-  end
-end
-
-module Lpis
-  include Celophane::Layer
-
-  def get_some_lpi_data
-    :some_lpi_data
-  end
-end
-
-module BrainAreas
-  include Celophane::Layer
-
-  def get_some_brain_area_data
-    :some_brain_area_data
-  end
-
-  # def get_some_lpi_data
-  #   :some_lpi_data_from_brain_areas
-  # end
-end
-
-game = Game.new.with_layer(Lpis).with_layer(BrainAreas)
-binding.pry
-puts game.get_some_game_data
-puts game.get_some_lpi_data
-puts game.get_some_brain_area_data
-puts game.save

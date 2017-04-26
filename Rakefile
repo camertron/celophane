@@ -1,6 +1,6 @@
 require 'rspec/core/rake_task'
 require 'rubygems/package_task'
-require './lib/celophane'
+require './lib/laminate'
 
 Bundler::GemHelper.install_tasks
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 include TestLayers
 
-describe Celophane::Layer do
+describe Laminate::Layer do
   shared_examples 'a base class' do
     it 'allows calling base methods' do
       expect(instance.base_method).to eq(:base)
@@ -68,5 +68,41 @@ describe Celophane::Layer do
     it_behaves_like 'a base class'
     it_behaves_like 'a 2nd level layer class'
     it_behaves_like 'a 3rd level layer class'
+  end
+
+  describe '#with_layer' do
+    it 'raises an error if passed something other than a module' do
+      expect { Person.new.with_layer('foo') }.to(
+        raise_error(ArgumentError, 'layers must all be modules')
+      )
+    end
+
+    it 'raises an error if a method is already defined' do
+      expect { Person.new.with_layer(JogMethodCollision) }.to(
+        raise_error(Laminate::MethodAlreadyDefinedError)
+      )
+    end
+
+    it 'ensures overriding methods does not raise errors if explicitly asked' do
+      instance = -> { Person.new.with_layer(JogMethodCollision, allow_overrides: true) }
+      expect(&instance).to_not raise_error
+    end
+
+    it 'ensures overridden methods take precedence' do
+      person = Person.new.with_layer(JogMethodCollision, allow_overrides: true)
+      expect(person.jog).to eq(:jogging_collision)
+    end
+  end
+
+  describe '#with_layers' do
+    it 'includes modules in order' do
+      layers = [JogMethodCollision, JogMethodCollision2]
+      person = Person.new.with_layers(layers, allow_overrides: true)
+      expect(person.jog).to eq(:jogging_collision2)
+
+      layers = [JogMethodCollision2, JogMethodCollision]
+      person = Person.new.with_layers(layers, allow_overrides: true)
+      expect(person.jog).to eq(:jogging_collision)
+    end
   end
 end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    celophane (1.0.0)
+    laminate (1.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -37,10 +37,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  celophane!
+  laminate!
   pry-byebug
   rake
   rspec (~> 3.0)
 
 BUNDLED WITH
-   1.13.6
+   1.14.6

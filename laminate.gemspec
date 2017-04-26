@@ -1,12 +1,12 @@
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
-require 'celophane/version'
+require 'laminate/version'
 
 Gem::Specification.new do |s|
-  s.name     = 'celophane'
-  s.version  = ::Celophane::VERSION
+  s.name     = 'laminate'
+  s.version  = ::Laminate::VERSION
   s.authors  = ['Cameron Dutro']
   s.email    = ['camertron@gmail.com']
-  s.homepage = 'https://github.com/camertron/celophane'
+  s.homepage = 'https://github.com/camertron/laminate'
 
   s.description = s.summary = 'Turn any Ruby module into a composable decorator.'
 
@@ -14,5 +14,5 @@ Gem::Specification.new do |s|
   s.has_rdoc = true
 
   s.require_path = 'lib'
-  s.files = Dir['{lib,spec}/**/*', 'README.md', 'celophane.gemspec', 'LICENSE']
+  s.files = Dir['{lib,spec}/**/*', 'README.md', 'laminate.gemspec', 'LICENSE']
 end

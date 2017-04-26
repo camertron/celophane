@@ -1,5 +1,5 @@
 require 'pry-byebug'
-require 'celophane'
+require 'laminate'
 require 'rspec'
 
 RSpec.configure do |config|
@@ -15,15 +15,31 @@ module TestLayers
   end
 
   class Person < Base
-    include Celophane::Layer
+    include Laminate::Layer
 
     def jog
       :jogging
     end
   end
 
+  module JogMethodCollision
+    include Laminate::Layer
+
+    def jog
+      :jogging_collision
+    end
+  end
+
+  module JogMethodCollision2
+    include Laminate::Layer
+
+    def jog
+      :jogging_collision2
+    end
+  end
+
   module Runner
-    include Celophane::Layer
+    include Laminate::Layer
 
     def run
       :running
@@ -31,7 +47,7 @@ module TestLayers
   end
 
   module Sprinter
-    include Celophane::Layer
+    include Laminate::Layer
 
     def sprint
       :sprinting

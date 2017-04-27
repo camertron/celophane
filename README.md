@@ -80,9 +80,25 @@ garden = VegetableGarden.new.with_layer(HarvestHelpers)
 garden.harvest
 ```
 
+What's more, you can create a layer out of more than one module at a time:
+
+```ruby
+module PlantHelpers
+  def dig_hole
+    # dig dig
+  end
+end
+
+garden = VegetableGarden.new.with_layers([HarvestHelpers, PlantHelpers])
+# returns #<VegetableGarden::WithHarvestHelpersAndPlantHelpers:0x007f7f9c836da0>
+
+garden.dig_hole
+garden.harvest
+```
+
 ### Sweet! How does it work?
 
-The `garden` variable is an instance of `VegetableGarden::WithHarvestHelpers`, a class laminate dynamically created and cached for you. These dynamically created classes will be created once and reused the next time `#with_layer` is called.
+The `garden` variable is an instance of `VegetableGarden::WithHarvestHelpers`, a class laminate dynamically created and cached for you (these dynamically created classes will be created once and reused the next time `#with_layer` is called).
 
 `VegetableGarden::WithHarvestHelpers` forwards all _public_ methods already defined in `VegetableGarden` but none of the _private_ methods, meaning layers can define private methods without fearing those methods will be inadvertently overridden by other modules.
 

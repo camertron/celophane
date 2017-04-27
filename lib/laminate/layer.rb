@@ -56,7 +56,7 @@ module Laminate
                   mod.method_defined?(method_name)
                 end
 
-                "  `##{method_name}' is already defined by #{ancestor_module.name}"
+                "  `##{method_name}' is already defined in #{ancestor_module.name}"
               end
 
               layer_plural = error_messages.size == 1 ? 'layer' : 'layers'
